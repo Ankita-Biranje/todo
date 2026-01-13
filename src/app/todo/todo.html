@@ -1,0 +1,51 @@
+<div class="container">
+    <div class="row">
+        <div class="col-2"></div>
+        <div class="col-sm-8 ">
+            <h1> Create Your TODO !!</h1>
+
+            <form (ngSubmit)="addNewTask()">
+                <div class="mb-3">
+                    <label for="exampleInputEmail1" class="form-label">Title</label>
+                    <input type="email" class="form-control" [(ngModel)]="taskTitle" name="taskTitle">
+                </div>
+                <div class="mb-3">
+                    <label for="exampleInputPassword1" class="form-label">Description</label>
+                    <input type="text" class="form-control" [(ngModel)]="taskDescription" name="taskDescription">
+                </div>
+                <button type="submit" class="btn btn-outline-primary" [disabled]="taskTitle.length < 3">Add New
+                    Task</button>
+            </form>
+            <br><br>
+            <h1>TODO List !!</h1>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th scope="col">No</th>
+                        <th scope="col">Title</th>
+                        <th scope="col">Description</th>
+                        <th scope="col">Status</th>
+                        <th scope="col">Update</th>
+                        <th scope="col">Delete</th>
+                    </tr>
+                </thead>
+                <tbody>
+
+                    @for (task of tasks; track $index)
+                    {
+                    <tr>
+                        <th scope="row">{{task.id}}</th>
+                        <td>{{task.title | titlecase}}</td>
+                        <td>{{task?.description | titlecase}}</td>
+                        <td><input type="checkbox" (change)="toggleComplete(task.id)" [checked]="task.status"></td>
+                        <td><button class="btn btn-outline-success " [disabled]="task.status === true">Update</button>
+                        </td>
+                        <td><button class="btn btn-outline-danger" (click)="deleteTask(task.id)">Delete</button></td>
+                    </tr>
+                    }
+
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
