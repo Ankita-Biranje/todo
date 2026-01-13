@@ -1,10 +1,10 @@
-<div class="container">
+<div class="container-fluid">
     <div class="row">
         <div class="col-2"></div>
         <div class="col-sm-8 ">
-            <h1> Create Your TODO !!</h1>
+            <h1>@if (editingTaskNumber === 0) {Create Your TODO !!} @else {Edit Your Task !!} </h1>
 
-            <form (ngSubmit)="addNewTask()">
+            <form>
                 <div class="mb-3">
                     <label for="exampleInputEmail1" class="form-label">Title</label>
                     <input type="email" class="form-control" [(ngModel)]="taskTitle" name="taskTitle">
@@ -13,15 +13,28 @@
                     <label for="exampleInputPassword1" class="form-label">Description</label>
                     <input type="text" class="form-control" [(ngModel)]="taskDescription" name="taskDescription">
                 </div>
-                <button type="submit" class="btn btn-outline-primary" [disabled]="taskTitle.length < 3">Add New
-                    Task</button>
+
+                @if (editingTaskNumber === 0) {
+                <button type="submit" (click)="addNewTask()" class="btn btn-outline-primary"
+                    [disabled]="taskTitle.length < 3">
+                    Add Task
+                </button>
+                } @else {
+                <button type="submit" (click)="updateTask()" class="btn btn-outline-success"
+                    [disabled]="taskTitle.length < 3">
+                    Update Task
+                </button>
+                }
+
             </form>
-            <br><br>
-            <h1>TODO List !!</h1>
+            <br /><br />
+            <hr />
+            <br />
+            <h1>Tasks List</h1>
             <table class="table">
                 <thead>
                     <tr>
-                        <th scope="col">No</th>
+                        <th scope="col">ID</th> <!--  Created At Try -->
                         <th scope="col">Title</th>
                         <th scope="col">Description</th>
                         <th scope="col">Status</th>
@@ -38,9 +51,11 @@
                         <td>{{task.title | titlecase}}</td>
                         <td>{{task?.description | titlecase}}</td>
                         <td><input type="checkbox" (change)="toggleComplete(task.id)" [checked]="task.status"></td>
-                        <td><button class="btn btn-outline-success " [disabled]="task.status === true">Update</button>
+                        <td><button class="btn btn-sm btn-outline-success" (click)="editTask(task.id)"
+                                [disabled]="task.status === true">Edit</button>
                         </td>
-                        <td><button class="btn btn-outline-danger" (click)="deleteTask(task.id)">Delete</button></td>
+                        <td><button class="btn btn-sm btn-outline-danger" (click)="deleteTask(task.id)">Delete</button>
+                        </td>
                     </tr>
                     }
 
